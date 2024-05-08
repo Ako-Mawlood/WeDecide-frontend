@@ -31,10 +31,10 @@ const AddPollModul = () => {
   }
   async function handleSubmit(e) {
     e.preventDefault();
-    const requestArray = [{ name: pollName, options }];
+    const requestArray = [{ name: pollName, endAt: "2024/9/9 03:00:00", options: options }];
     console.log(requestArray);
     setIsPending(true);
-    await axios.post("http://localhost:3001/polls", requestArray);
+    await axios.post("https://df38-185-244-155-190.ngrok-free.app/poll", requestArray);
     setOptions(["", ""]);
     setPollName("");
     setIsPending(false);

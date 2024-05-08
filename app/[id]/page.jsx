@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { pusherClient } from "../../lib/pusher";
+import { FaHandSparkles } from "react-icons/fa";
+import Link from "next/link";
 
 const Poll = ({ params }) => {
   const [currentPoll, setCurrentPoll] = useState(null);
@@ -38,6 +40,10 @@ const Poll = ({ params }) => {
 
   return (
     <div className="poll-room-wraper">
+      <Link className="logo" href="/">
+        <FaHandSparkles size={25} />
+        <span>WeDecide</span>
+      </Link>
       {currentPoll && (
         <>
           <aside className="poll-aside">
