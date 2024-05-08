@@ -1,42 +1,58 @@
-"use client"
-import React, { useState, useEffect } from 'react';
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { pusherClient } from "../../lib/pusher";
 
 const Poll = ({ params }) => {
-    const [currentPoll, setCurrentPoll] = useState(null);
+  const [currentPoll, setCurrentPoll] = useState(null);
 
-    useEffect(() => {
-        const fetchCurrentPoll = async () => {
-            try {
-                const response = await fetch(`http://localhost:3000/polls/${params.id}`);
-                const data = await response.json();
-                setCurrentPoll(data);
-            } catch (error) {
-                console.error('Error fetching current poll:', error);
-            }
-        };
+  useEffect(() => {
+    const fetchCurrentPoll = () => {
+      try {
+        fetch(`${process.env.NEXT_BACKEND_URL}/polls/${params.id}`)
+          .then((res) => {
+            return res.json();
+          })
+          .then((poll) => {
+            setCurrentPoll(poll);
+          });
+      } catch (error) {
+        console.error("Error fetching current poll:", error);
+      }
+    };
 
-        fetchCurrentPoll();
-    }, [params.id]);
+    fetchCurrentPoll();
+  }, [params.id]);
 
-    return (
-        <div className='poll-room-wraper'>
-            {currentPoll && (
-                <>
-                    <aside className='poll-aside'>
-                        <h1 className='poll-question'>{currentPoll.question}</h1>
-                        {currentPoll.options.map((option, index) => (
-                            <div key={index}>
-                                <button>{option}</button>
-                            </div>
-                        ))}
-                    </aside>
-                    <aside className='result-aside'>
+  useEffect(() => {
+    pusherClient.subscribe(`poll-${params.id}`);
 
-                    </aside>
-                </>
-            )}
-        </div>
-    );
+    pusherClient.bind("votes", (vote) => {
+      console.log(vote);
+    });
+
+    return () => {
+      pusherClient.unsubscribe(`poll-${params.id}`);
+    };
+  }, []);
+
+  return (
+    <div className="poll-room-wraper">
+      {currentPoll && (
+        <>
+          <aside className="poll-aside">
+            <h1 className="poll-question">{currentPoll.question}</h1>
+            {currentPoll.options.map((option, index) => (
+              <div key={index}>
+                <button>{option}</button>
+              </div>
+            ))}
+          </aside>
+          <aside className="result-aside"></aside>
+        </>
+      )}
+    </div>
+  );
 };
 
 export default Poll;

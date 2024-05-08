@@ -13,7 +13,6 @@
     "clsx": "^2.1.1",
     "json-server": "^1.0.0-alpha.23",
     "next": "14.2.3",
-    "ngrok": "^5.0.0-beta.2",
     "pusher-js": "^8.4.0-rc2",
     "react": "^18",
     "react-dom": "^18",
