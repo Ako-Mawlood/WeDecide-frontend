@@ -19,14 +19,21 @@ const Poll = ({ params }) => {
     }, [params.id]);
 
     return (
-        <div>
+        <div className='poll-room-wraper'>
             {currentPoll && (
-                <div>
-                    <h1>{currentPoll.question}</h1>
-                    {currentPoll.options.map((option, index) => (
-                        <button key={index}>{option}</button>
-                    ))}
-                </div>
+                <>
+                    <aside className='poll-aside'>
+                        <h1 className='poll-question'>{currentPoll.question}</h1>
+                        {currentPoll.options.map((option, index) => (
+                            <div key={index}>
+                                <button>{option}</button>
+                            </div>
+                        ))}
+                    </aside>
+                    <aside className='result-aside'>
+
+                    </aside>
+                </>
             )}
         </div>
     );
