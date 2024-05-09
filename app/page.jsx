@@ -3,7 +3,7 @@ import Link from "next/link";
 import { FaHandSparkles } from "react-icons/fa";
 
 const getPolls = async () => {
-  const res = await fetch(`https://1c39-185-244-155-190.ngrok-free.app/poll`);
+  const res = await fetch(`https://2e15-185-240-17-50.ngrok-free.app/poll`);
   const polls = await res.json();
   return polls;
 };

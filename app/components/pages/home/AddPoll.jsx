@@ -6,7 +6,6 @@ import axios from "axios";
 import { GoTrash } from "react-icons/go";
 import { ImSpinner8 } from "react-icons/im";
 import { useCookies } from 'next-client-cookies';
-
 const AddPollModul = () => {
   const [showAddPollModal, setShowAddPollModal] = useState(false);
   const [pollName, setPollName] = useState("");
@@ -39,8 +38,9 @@ const AddPollModul = () => {
     console.log(requestArray);
     setIsPending(true);
 
+
     // await axios.post("https://7c40-185-244-155-190.ngrok-free.app/poll", requestArray);
-    await fetch(`https://1c39-185-244-155-190.ngrok-free.app/poll`,
+    await fetch(`https://2e15-185-240-17-50.ngrok-free.app/poll`,
       {
         headers: {
           'Accept': 'application/json',

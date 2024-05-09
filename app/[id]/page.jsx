@@ -4,39 +4,66 @@ import React, { useState, useEffect } from "react";
 import { pusherClient } from "../../lib/pusher";
 import { FaHandSparkles } from "react-icons/fa";
 import Link from "next/link";
+import axios from "axios";
 
 const Poll = ({ params }) => {
   const [currentPoll, setCurrentPoll] = useState(null);
+  const [voted, setVoted] = useState(false);
 
   useEffect(() => {
-    const fetchCurrentPoll = () => {
-      try {
-        fetch(`https://7c40-185-244-155-190.ngrok-free.app/polls/${params.id}`)
-          .then((res) => {
-            return res.json();
-          })
-          .then((poll) => {
-            setCurrentPoll(poll);
-          });
-      } catch (error) {
-        console.error("Error fetching current poll:", error);
-      }
-    };
-
     fetchCurrentPoll();
   }, [params.id]);
+
+  const fetchCurrentPoll = async () => {
+    try {
+      await axios.get(`https://2e15-185-240-17-50.ngrok-free.app/poll/${params.id}`).then((response) => {
+        setCurrentPoll(response.data);
+      })
+      // fetch(`https://2e15-185-240-17-50.ngrok-free.app/poll/${params.id}`,
+      //   {
+      //     headers: {
+      //       'Accept': 'application/json',
+      //       'Content-Type': 'application/json'
+      //     },
+      //     mode: "no-cors",
+      //     credentials: 'include'
+      //   })
+      //   .then((res) => {
+      //     return res.json();
+      //   })
+      //   .then((poll) => {
+      //     setCurrentPoll(poll);
+      //   });
+    } catch (error) {
+      console.error("Error fetching current poll:", error);
+    }
+  };
 
   useEffect(() => {
     pusherClient.subscribe(`poll-${params.id}`);
 
     pusherClient.bind("votes", (vote) => {
-      console.log(vote.id);
+      fetchCurrentPoll();
     });
 
     return () => {
       pusherClient.unsubscribe(`poll-${params.id}`);
     };
   }, []);
+
+  async function vote(id) {
+    setVoted(true);
+    await fetch(`https://2e15-185-240-17-50.ngrok-free.app/poll/${params.id}/vote/${id}`,
+      {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: "POST",
+        mode: "no-cors",
+        credentials: 'include'
+      })
+  }
 
   return (
     <div className="poll-room-wraper">
@@ -46,18 +73,23 @@ const Poll = ({ params }) => {
       </Link>
       {currentPoll && (
         <>
-          <aside className="poll-aside">
-            <h1 className="poll-question">{currentPoll.question}</h1>
+          <aside className="poll-aside" style={{ opacity: voted ? 0.5 : 1 }}>
+            <h1 className="poll-question">{currentPoll.name}</h1>
             {currentPoll.options.map((option, index) => (
-              <div key={index}>
-                <button>{option}</button>
+              <div style={{ width: '100%' }} key={option.id}>
+                option.id
+                <button onClick={() => vote(option.id)} disabled={voted} className="option-button" style={{ cursor: voted ? 'default' : "pointer" }}>
+                  {option.name}
+                  <span>({option.name ? `${option.name}` : 0}) ({option.votes ? Math.floor((option.votes / currentPoll.totalVotes) * 100) : 0}%)</span>
+                  <div className="progress" style={{ width: `${(option.votes / currentPoll.totalVotes) * 100}%` }} />
+                </button>
               </div>
             ))}
           </aside>
-          <aside className="result-aside"></aside>
         </>
-      )}
-    </div>
+      )
+      }
+    </div >
   );
 };
 
