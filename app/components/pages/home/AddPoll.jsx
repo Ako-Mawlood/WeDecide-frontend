@@ -5,11 +5,15 @@ import { useState } from "react";
 import axios from "axios";
 import { GoTrash } from "react-icons/go";
 import { ImSpinner8 } from "react-icons/im";
+import { useCookies } from 'next-client-cookies';
+
 const AddPollModul = () => {
   const [showAddPollModal, setShowAddPollModal] = useState(false);
   const [pollName, setPollName] = useState("");
   const [options, setOptions] = useState(["", ""]);
   const [isPending, setIsPending] = useState(false);
+
+  const cookies = useCookies();
 
   function toggleModal() {
     setShowAddPollModal((prevShowAddPollModal) => !prevShowAddPollModal);
@@ -31,10 +35,22 @@ const AddPollModul = () => {
   }
   async function handleSubmit(e) {
     e.preventDefault();
-    const requestArray = [{ name: pollName, endAt: "2024/9/9 03:00:00", options: options }];
+    const requestArray = { name: pollName, endAt: "2024/9/9 03:00:00", options: options };
     console.log(requestArray);
     setIsPending(true);
-    await axios.post("https://df38-185-244-155-190.ngrok-free.app/poll", requestArray);
+
+    // await axios.post("https://7c40-185-244-155-190.ngrok-free.app/poll", requestArray);
+    await fetch(`https://1c39-185-244-155-190.ngrok-free.app/poll`,
+      {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: "POST",
+        body: JSON.stringify({ name: pollName, endAt: "2024/9/9 03:00:00", options: options }),
+        mode: "no-cors",
+        credentials: 'include'
+      })
     setOptions(["", ""]);
     setPollName("");
     setIsPending(false);

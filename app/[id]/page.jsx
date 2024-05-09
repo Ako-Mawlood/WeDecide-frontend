@@ -11,7 +11,7 @@ const Poll = ({ params }) => {
   useEffect(() => {
     const fetchCurrentPoll = () => {
       try {
-        fetch(`${process.env.NEXT_BACKEND_URL}/polls/${params.id}`)
+        fetch(`https://7c40-185-244-155-190.ngrok-free.app/polls/${params.id}`)
           .then((res) => {
             return res.json();
           })
@@ -30,7 +30,7 @@ const Poll = ({ params }) => {
     pusherClient.subscribe(`poll-${params.id}`);
 
     pusherClient.bind("votes", (vote) => {
-      console.log(vote);
+      console.log(vote.id);
     });
 
     return () => {
