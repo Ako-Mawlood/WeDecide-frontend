@@ -40,7 +40,7 @@ const AddPollModul = () => {
 
 
     // await axios.post("https://7c40-185-244-155-190.ngrok-free.app/poll", requestArray);
-    await fetch(`https://2e15-185-240-17-50.ngrok-free.app/poll`,
+    await fetch(`${process.env.BACKEND_URL}/poll`,
       {
         headers: {
           'Accept': 'application/json',

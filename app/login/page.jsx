@@ -18,7 +18,7 @@ const loginPage = () => {
 
     const onSubmit = async (data) => {
         try {
-            const res = await axios.post("/login", data);
+            const res = await axios.post(`${process.env.BACKEND_URL}/login`, data);
             router.push("/");
         } catch (err) {
             if (err.response) {

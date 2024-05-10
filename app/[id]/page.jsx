@@ -16,9 +16,17 @@ const Poll = ({ params }) => {
 
   const fetchCurrentPoll = async () => {
     try {
-      await axios.get(`https://2e15-185-240-17-50.ngrok-free.app/poll/${params.id}`).then((response) => {
-        setCurrentPoll(response.data);
-      })
+      await axios.get(`${process.env.BACKEND_URL}/poll/${params.id}`,
+        {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          mode: "no-cors",
+          credentials: 'include'
+        }).then((response) => {
+          setCurrentPoll(response.data);
+        })
       // fetch(`https://2e15-185-240-17-50.ngrok-free.app/poll/${params.id}`,
       //   {
       //     headers: {
@@ -53,7 +61,7 @@ const Poll = ({ params }) => {
 
   async function vote(id) {
     setVoted(true);
-    await fetch(`https://2e15-185-240-17-50.ngrok-free.app/poll/${params.id}/vote/${id}`,
+    await fetch(`${process.env.BACKEND_URL}/poll/${params.id}/vote/${id}`,
       {
         headers: {
           'Accept': 'application/json',
@@ -80,7 +88,7 @@ const Poll = ({ params }) => {
                 option.id
                 <button onClick={() => vote(option.id)} disabled={voted} className="option-button" style={{ cursor: voted ? 'default' : "pointer" }}>
                   {option.name}
-                  <span>({option.name ? `${option.name}` : 0}) ({option.votes ? Math.floor((option.votes / currentPoll.totalVotes) * 100) : 0}%)</span>
+                  <span> ({option.votes ? Math.floor((option.votes / currentPoll.totalVotes) * 100) : 0}%)</span>
                   <div className="progress" style={{ width: `${(option.votes / currentPoll.totalVotes) * 100}%` }} />
                 </button>
               </div>
