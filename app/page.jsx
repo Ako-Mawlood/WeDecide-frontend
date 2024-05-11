@@ -3,7 +3,7 @@ import Link from "next/link";
 import { FaHandSparkles } from "react-icons/fa";
 
 const getPolls = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/poll`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/poll`, { cache: "no-store" });
   const polls = await res.json();
   return polls;
 };
