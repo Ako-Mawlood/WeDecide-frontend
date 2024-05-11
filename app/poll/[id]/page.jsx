@@ -65,6 +65,7 @@ const Poll = ({ params }) => {
     pusherClient.subscribe(`poll-${params.id}`);
 
     pusherClient.bind("votes", (vote) => {
+      console.log(vote);
       setCurrentPoll((prevPoll) => {
         const updatedOptions = prevPoll.options.map((option) => {
           if (option.id === vote.id) {
@@ -107,7 +108,7 @@ const Poll = ({ params }) => {
         <FaHandSparkles size={25} />
         <span>WeDecide</span>
       </Link>
-      {currentPoll && !!timeLeft && (
+      {currentPoll && timeLeft != null && (
         <div className="poll-container">
           <div id="qrcode" style={{ marginTop: 32 }}>
             <QRCodeSVG size={256} value={window.location.href} />

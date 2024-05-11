@@ -16,7 +16,7 @@ Setup `.env` file:
 
 ```
 NEXT_PUBLIC_BACKEND_URL=""
-PUSHER_APP_KEY=""
+NEXT_PUBLIC_PUSHER_APP_KEY=""
 ```
 
 then run:
