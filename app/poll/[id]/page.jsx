@@ -38,9 +38,8 @@ const Poll = ({ params }) => {
     try {
       let url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/poll/${params.id}`;
       if (localStorage.getItem("id")) {
-        url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/poll/${
-          params.id
-        }?id=${localStorage.getItem("id")}`;
+        url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/poll/${params.id
+          }?id=${localStorage.getItem("id")}`;
       }
 
       await axios.get(url).then((res) => {
@@ -65,7 +64,6 @@ const Poll = ({ params }) => {
     pusherClient.subscribe(`poll-${params.id}`);
 
     pusherClient.bind("votes", (vote) => {
-      console.log(vote);
       setCurrentPoll((prevPoll) => {
         const updatedOptions = prevPoll.options.map((option) => {
           if (option.id === vote.id) {
@@ -99,6 +97,7 @@ const Poll = ({ params }) => {
       })
       .then((res) => {
         localStorage.setItem("id", res.data.voterId);
+        setVoted(res.data.id)
       });
   }
 
@@ -122,7 +121,7 @@ const Poll = ({ params }) => {
             </h1>
             <p className="votes-number">Time left: {format(timeLeft)}</p>
             <p className="votes-number">Total Votes: {currentPoll?.totalVotes}</p>
-            {currentPoll.options.map((option, index) => (
+            {currentPoll.options.map((option) => (
               <div style={{ width: "100%" }} key={option.id}>
                 <button
                   onClick={() => vote(option.id)}

@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-
 import { MdOutlineClose } from "react-icons/md";
 import { IoAdd } from "react-icons/io5";
 import { GoTrash } from "react-icons/go";
@@ -15,9 +14,7 @@ const AddPollModule = () => {
   const [pollTime, setPollTime] = useState(60);
   const [options, setOptions] = useState(["", ""]);
   const [isPending, setIsPending] = useState(false);
-
   const [token, setToken] = useState(null);
-
   const router = useRouter();
 
   useEffect(() => {
@@ -109,7 +106,7 @@ const AddPollModule = () => {
                   value={pollName}
                   type="text"
                   required
-                  placeholder="What is your favorate color"
+                  placeholder="What is your favorite color"
                 />
               </label>
 

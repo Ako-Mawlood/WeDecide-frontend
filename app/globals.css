@@ -83,6 +83,15 @@ button {
   cursor: pointer;
   background-color: #222;
 }
+.poll-buttons-container{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.delete-poll-button{
+  color:#ef4444;
+  font-weight: 600;  
+}
 
 .votes-number {
   color: #000;
@@ -177,6 +186,7 @@ button {
 }
 
 .progress {
+  width: 0;
   padding: 4px;
   margin-top: 4px;
   border-radius: 999px;
@@ -243,6 +253,7 @@ button {
 }
 
 /*poll-room page */
+
 .poll-room-wrapper {
   width: 100vw;
   height: 100vh;
@@ -279,7 +290,9 @@ button {
     font-size: 1.5rem;
   }
 }
+
 /*Login page */
+
 .logo {
   position: absolute;
   color: #111;
