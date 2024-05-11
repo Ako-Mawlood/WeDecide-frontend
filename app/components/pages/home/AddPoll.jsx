@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
@@ -16,7 +16,13 @@ const AddPollModule = () => {
   const [options, setOptions] = useState(["", ""]);
   const [isPending, setIsPending] = useState(false);
 
+  const [token, setToken] = useState(null);
+
   const router = useRouter();
+
+  useEffect(() => {
+    setToken(localStorage.getItem("token"));
+  }, []);
 
   function toggleModal() {
     setShowAddPollModal((prevShowAddPollModal) => !prevShowAddPollModal);
@@ -65,7 +71,7 @@ const AddPollModule = () => {
   }
 
   // Don't show the button if the user is not logged in
-  if (typeof localStorage != undefined && !localStorage.getItem("token")) {
+  if (token) {
     return <></>;
   }
 
