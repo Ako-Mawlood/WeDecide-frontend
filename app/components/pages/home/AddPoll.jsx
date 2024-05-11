@@ -1,18 +1,22 @@
 "use client";
-import { MdOutlineClose } from "react-icons/md";
-import { IoAdd } from "react-icons/io5";
+
 import { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+
+import { MdOutlineClose } from "react-icons/md";
+import { IoAdd } from "react-icons/io5";
 import { GoTrash } from "react-icons/go";
 import { ImSpinner8 } from "react-icons/im";
-import { useCookies } from 'next-client-cookies';
-const AddPollModul = () => {
+
+const AddPollModule = () => {
   const [showAddPollModal, setShowAddPollModal] = useState(false);
   const [pollName, setPollName] = useState("");
+  const [pollTime, setPollTime] = useState(60);
   const [options, setOptions] = useState(["", ""]);
   const [isPending, setIsPending] = useState(false);
 
-  const cookies = useCookies();
+  const router = useRouter();
 
   function toggleModal() {
     setShowAddPollModal((prevShowAddPollModal) => !prevShowAddPollModal);
@@ -34,27 +38,35 @@ const AddPollModul = () => {
   }
   async function handleSubmit(e) {
     e.preventDefault();
-    const requestArray = { name: pollName, endAt: "2024/9/9 03:00:00", options: options };
-    console.log(requestArray);
+
+    const time = new Date();
+    time.setSeconds(time.getSeconds() + parseInt(pollTime));
+
+    const payload = {
+      name: pollName,
+      endAt: time,
+      options: options,
+      token: localStorage.getItem("token"),
+    };
+
     setIsPending(true);
 
-
-    // await axios.post("https://7c40-185-244-155-190.ngrok-free.app/poll", requestArray);
-    await fetch(`${process.env.BACKEND_URL}/poll`,
-      {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        method: "POST",
-        body: JSON.stringify({ name: pollName, endAt: "2024/9/9 03:00:00", options: options }),
-        mode: "no-cors",
-        credentials: 'include'
+    await axios
+      .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/poll`, payload)
+      .then(() => {
+        router.refresh();
       })
-    setOptions(["", ""]);
-    setPollName("");
-    setIsPending(false);
-    setShowAddPollModal(false);
+      .finally(() => {
+        setIsPending(false);
+        setOptions(["", ""]);
+        setPollName("");
+        setShowAddPollModal(false);
+      });
+  }
+
+  // Don't show the button if the user is not logged in
+  if (typeof localStorage != undefined && !localStorage.getItem("token")) {
+    return <></>;
   }
 
   return (
@@ -73,7 +85,7 @@ const AddPollModul = () => {
             <button onClick={toggleModal} className="close-modal-button">
               <MdOutlineClose size={25} />
             </button>
-            <h1>Add new poll !</h1>
+            <h1>Add new poll</h1>
 
             <form
               disabled={isPending}
@@ -94,6 +106,7 @@ const AddPollModul = () => {
                   placeholder="What is your favorate color"
                 />
               </label>
+
               <span>Options</span>
               <div className="option-container">
                 {options.map((option, index) => (
@@ -122,6 +135,15 @@ const AddPollModul = () => {
                 <IoAdd size={20} />
                 Add option
               </button>
+              <label>
+                <span>Time (In seconds)</span>
+                <input
+                  onChange={(e) => setPollTime(e.target.value)}
+                  value={pollTime}
+                  type="number"
+                  required
+                />
+              </label>
               <button
                 onSubmit={handleSubmit}
                 type="submit"
@@ -137,4 +159,4 @@ const AddPollModul = () => {
   );
 };
 
-export default AddPollModul;
+export default AddPollModule;

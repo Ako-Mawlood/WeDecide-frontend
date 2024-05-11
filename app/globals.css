@@ -30,8 +30,8 @@ button {
   width: 85vw;
   display: flex;
   flex-direction: column;
-  justify-content: start;
-  align-items: start;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 .polls-header {
   width: 100%;
@@ -59,6 +59,7 @@ button {
   width: 95%;
   display: flex;
   gap: 35px;
+  flex-direction: column-reverse;
   margin-top: 2rem;
   flex-wrap: wrap;
 }
@@ -73,7 +74,7 @@ button {
   font-weight: lighter;
   flex-direction: column;
   justify-content: space-between;
-  align-items: start;
+  align-items: flex-start;
   transition: all;
   transition: 150ms;
 }
@@ -86,8 +87,14 @@ button {
   background-color: #222;
 }
 
+.votes-number {
+  color: #000;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
 @media only screen and (max-width: 600px) {
-  .poll{
+  .poll {
     width: 100%;
   }
 }
@@ -105,7 +112,7 @@ button {
   transition: 150ms;
 }
 .modal-container {
-  position: absolute;
+  position: fixed;
   transform: translate(-50%, -50%);
   top: 50%;
   left: 50%;
@@ -141,7 +148,7 @@ button {
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
   gap: 10px;
   flex-wrap: wrap;
 }
@@ -155,23 +162,28 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  transition: ease-in-out .15s;
+  transition: ease-in-out 0.15s;
 }
-.option-button span{
+.option-button div {
+  display: flex;
+}
+.option-button span {
   margin-left: auto;
-  padding-bottom: 1rem;
+}
+.check {
+  margin-right: 0.5rem;
+  color: #331ab0;
 }
 
-.option-button:hover {
+.option-button-hover:hover {
   background-color: #0000000e;
 }
 
 .progress {
   padding: 4px;
   margin-top: 4px;
-  /* height: 2rem; */
   border-radius: 999px;
-  background-color: #ef4444;
+  background-color: #3100a3;
   transition: linear 0.2s;
 }
 
@@ -224,8 +236,17 @@ button {
     width: 90%;
   }
 }
+
+.poll-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column-reverse;
+  width: 100%;
+}
+
 /*poll-room page */
-.poll-room-wraper {
+.poll-room-wrapper {
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -233,12 +254,12 @@ button {
   align-items: center;
 }
 .poll-aside {
-  width: 50%;
-  height: 100vh;
+  width: 70%;
+  margin-top: 30vh;
   color: #f5f5f5;
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: flex-start;
   justify-content: center;
 }
 
@@ -254,10 +275,10 @@ button {
   margin-bottom: 24px;
 }
 @media only screen and (max-width: 600px) {
-  .poll-aside{
+  .poll-aside {
     width: 90vw;
   }
-  .poll-question{
+  .poll-question {
     font-size: 1.5rem;
   }
 }
