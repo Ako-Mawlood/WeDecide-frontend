@@ -2,7 +2,7 @@
 
 Real time poll voting front-end app built using Next.js and Pusher.
 
-feel free to check this project's [backend-end](https://github.com/Abdullah-988/WeDecide-backend)
+feel free to check this project's [back-end](https://github.com/Abdullah-988/WeDecide-backend)
 
 ## Getting started
 
