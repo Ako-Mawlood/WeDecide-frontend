@@ -71,7 +71,7 @@ const AddPollModule = () => {
   }
 
   // Don't show the button if the user is not logged in
-  if (token) {
+  if (!token) {
     return <></>;
   }
 
